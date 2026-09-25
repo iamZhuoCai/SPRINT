@@ -1,0 +1,22 @@
+# SPRINT model defaults. configs/experiments.yaml overrides these per dataset;
+# the rest of the recipe is fixed in genrec/constants.py and model.py.
+lr: 0.003
+weight_decay: 0.0
+
+# Encoder–decoder width (1 encoder + 4 decoder layers, RMSNorm, fixed).
+d_model: 256
+n_inner: 1024          # explicit FFN width; overrides mlp_ratio
+mlp_ratio: 4           # used only when n_inner is unset
+n_heads: 4
+dropout_rate: 0.1
+norm_eps: 1e-5
+
+# Enforce t ∈ [r + mf_t_min_gap, 1] when > 0 (0 keeps t >= r only).
+mf_t_min_gap: 0.0
+
+# Catalog negatives per example for the dual (token + item) loss.
+# 0 / negative → use the full catalog. >0 → sample this many catalog SIDs per
+# example first (dropping the positive's own SID), then score only those.
+mf_ghost_penalty_num_neg: 0
+# Temperature on cos(u, v) before the item-branch softmax.
+mf_dual_item_tau: 0.07

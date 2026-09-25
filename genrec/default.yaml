@@ -1,0 +1,43 @@
+num_proc: 1
+cache_dir: cache/       # Usually for raw and processed data
+log_dir: logs/
+base_result_dir: output/
+tensorboard_log_dir: ~   # unused; runs do not write TensorBoard events
+ckpt_dir: ckpts/
+run_id: genrec_default  # Change this to your customized run id
+rand_seed: 2024
+reproducibility: True
+run_time: ~
+
+max_users: 1000000
+
+
+train_batch_size: 1024
+eval_batch_size: 256 
+test_batch_size: 256
+lr: 0.0001
+weight_decay: 0.0
+warmup_ratio: 0.1
+warmup_steps: ~   # if set, overrides warmup_ratio (DiffGRM uses 10000)
+steps: ~
+# epochs: 150
+epochs: 150
+max_grad_norm: 1.0      # None for no clipping, else a float value
+val_max_samples: 0     # If >0, randomly subsample the val set to this many users (model selection only; test stays full)
+eval_interval: 1        # Evaluate every n epochs
+patience: 10            # Early stopping. Stop training after n epochs without improvement. Set to None to disable
+skip_validation: false  # If true, skip val loop; use test_eval_interval for periodic test metrics
+test_eval_interval: ~   # Evaluate on test set every N epochs (requires skip_validation or runs in addition to val)
+# Resume from a weights-only .pth (optimizer state is not saved).
+# resume_epoch is the last finished 1-indexed epoch; training continues at resume_epoch+1.
+resume_ckpt: ~
+resume_epoch: 0
+resume_best_epoch: 0
+resume_best_val: ~
+
+
+
+val_topk: [1] 
+val_metric: ndcg@1
+topk: [1,5,10]
+metrics: [ndcg,recall]

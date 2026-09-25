@@ -1,0 +1,150 @@
+# SPRINT experiment configurations.
+#
+# Values are taken from the config dumps of the reference runs
+#   output/<dataset>/LLaDARec_Seq-20_DiffGRM/logs/Hyper2/eta/<name>_abl_v7_*.log
+# in LLaDA-Rec-main_one_step copy 2 (2026-09-20 .. 09-22).
+#
+#   `defaults`     shared by every dataset
+#   `experiments`  one block per dataset; each block lists every value that
+#                  differs between datasets, and overrides `defaults`
+#
+# Everything else of the recipe (SID shape, history length, architecture
+# switches, loss and inference form) is fixed in the code; see
+# genrec/constants.py and genrec/models/SPRINT/model.py.
+#
+# Usage:
+#   python main.py --experiment=beauty
+#   python main.py --experiment=games --epochs=50      # CLI wins over the file
+#
+# Override order: command line > experiment block > defaults > model config.yaml
+#                 > dataset config.yaml > genrec/default.yaml
+
+defaults:
+  model: SPRINT
+
+  # ---- optimisation ------------------------------------------------------
+  train_batch_size: 1024
+  eval_batch_size: 256
+  test_batch_size: 256
+  lr: 0.0001
+  warmup_ratio: 0.1
+  max_grad_norm: 1.0
+  epochs: 150
+  patience: 10
+  eval_interval: 1
+  skip_validation: false
+  rand_seed: 2024
+  reproducibility: true
+
+  # ---- evaluation --------------------------------------------------------
+  val_topk: [1, 5, 10]
+  val_metric: score@10            # 0.8 * NDCG@10 + 0.2 * Recall@10
+  topk: [1, 5, 10]
+  metrics: [ndcg, recall]
+
+# Per-dataset values. Every block lists the same keys so the datasets can be
+# compared line by line.
+experiments:
+  # ---- beauty — Amazon Reviews 2014 · Beauty -------------------------------
+  beauty:
+    dataset: AmazonReviews2014
+    category: Beauty
+    weight_decay: 0
+    d_model: 256
+    n_inner: 1024
+    n_heads: 4
+    n_kv_heads: 4
+    dropout_rate: 0.1
+    mf_ghost_penalty_num_neg: 100
+    mf_dual_item_tau: 0.01
+
+  # ---- sports — Amazon Reviews 2014 · Sports and Outdoors ------------------
+  sports:
+    dataset: AmazonReviews2014
+    category: Sports
+    weight_decay: 0
+    d_model: 256
+    n_inner: 1024
+    n_heads: 4
+    n_kv_heads: 4
+    dropout_rate: 0.1
+    mf_ghost_penalty_num_neg: 100
+    mf_dual_item_tau: 0.01
+
+  # ---- toys — Amazon Reviews 2014 · Toys and Games -------------------------
+  toys:
+    dataset: AmazonReviews2014
+    category: Toys
+    weight_decay: 0
+    d_model: 256
+    n_inner: 1024
+    n_heads: 4
+    n_kv_heads: 4
+    dropout_rate: 0.1
+    mf_ghost_penalty_num_neg: 100
+    mf_dual_item_tau: 0.01
+
+  # ---- scientific — Amazon Reviews 2023 · Industrial and Scientific --------
+  scientific:
+    dataset: AmazonReviews2023
+    category: Industrial_and_Scientific
+    weight_decay: 0
+    d_model: 256
+    n_inner: 1024
+    n_heads: 4
+    n_kv_heads: 4
+    dropout_rate: 0.1
+    mf_ghost_penalty_num_neg: 100
+    mf_dual_item_tau: 0.01
+
+  # ---- instrument — Amazon Reviews 2023 · Musical Instruments --------------
+  instrument:
+    dataset: AmazonReviews2023
+    category: Musical_Instruments
+    weight_decay: 0
+    d_model: 256
+    n_inner: 1024
+    n_heads: 4
+    n_kv_heads: 4
+    dropout_rate: 0.1
+    mf_ghost_penalty_num_neg: 100
+    mf_dual_item_tau: 0.1
+
+  # ---- games — Amazon Reviews 2023 · Video Games ---------------------------
+  games:
+    dataset: AmazonReviews2023
+    category: Video_Games
+    weight_decay: 0
+    d_model: 256
+    n_inner: 1024
+    n_heads: 4
+    n_kv_heads: 4
+    dropout_rate: 0.1
+    mf_ghost_penalty_num_neg: 100
+    mf_dual_item_tau: 0.01
+
+  # ---- arts — Amazon Reviews 2023 · Arts, Crafts and Sewing ----------------
+  arts:
+    dataset: AmazonReviews2023
+    category: Arts_Crafts_and_Sewing
+    weight_decay: 0.05
+    d_model: 512
+    n_inner: 1024
+    n_heads: 8
+    n_kv_heads: 8
+    dropout_rate: 0.2
+    mf_ghost_penalty_num_neg: 1000
+    mf_dual_item_tau: 0.01
+
+  # ---- yelp — Yelp ---------------------------------------------------------
+  yelp:
+    dataset: Yelp
+    category: Yelp
+    weight_decay: 0
+    d_model: 512
+    n_inner: 2048
+    n_heads: 4
+    n_kv_heads: 4
+    dropout_rate: 0.2
+    mf_ghost_penalty_num_neg: 100
+    mf_dual_item_tau: 0.01

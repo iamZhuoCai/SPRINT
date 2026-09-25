@@ -1,0 +1,18 @@
+# OPQ tokenizer: FAISS OPQ/PQ semantic IDs from sentence embeddings.
+# SID shape (4 digits x 256 codes) and PCA to 256 dims are fixed in
+# genrec/constants.py.
+
+# Sentence embedding
+sent_emb_model: sentence-transformers/sentence-t5-base
+sent_emb_batch_size: 512
+sent_emb_dim: 768
+
+# Optional explicit .sem_ids JSON. If unset, use a ready file in the
+# category cache or processed/; train OPQ only when that file is missing.
+sem_ids_path: ~
+
+opq_use_gpu: false
+opq_gpu_id: 0
+faiss_omp_num_threads: 32
+force_regenerate_opq: false
+disable_opq: false
