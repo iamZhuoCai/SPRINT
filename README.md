@@ -18,11 +18,3 @@ One command per dataset:
 | Amazon 2023 Arts             | `python main.py --experiment=arts`        |
 | Yelp                         | `python main.py --experiment=yelp`        |
 
-
-Run in the background and keep the console output:
-
-```bash
-mkdir -p nohup
-nohup python main.py --experiment=beauty > nohup/beauty.out 2>&1 &
-```
-
