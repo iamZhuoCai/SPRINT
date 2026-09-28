@@ -1,5 +1,3 @@
-"""Discrete Mean Flow: continuous time r,t in (0, 1) with mask probability 1 - r."""
-
 import math
 from typing import Literal, Optional, Tuple
 
