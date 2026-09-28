@@ -1,5 +1,3 @@
-"""DiffGRM-style encoder–decoder Transformer blocks (bidirectional + cross-attn)."""
-
 from typing import Optional
 
 import torch
